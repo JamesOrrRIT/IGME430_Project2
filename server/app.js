@@ -14,10 +14,10 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/DomoMaker';
 mongoose.connect(dbURI, (err) => {
-    if (err) {
-        console.log('Could not connect to database');
-        throw err;
-    }
+  if (err) {
+    console.log('Could not connect to database');
+    throw err;
+  }
 });
 
 const app = express();
@@ -34,8 +34,8 @@ app.set('views', `${__dirname}/../views`);
 app.use(cookieParser());
 
 router(app);
-    
+
 app.listen(port, (err) => {
-    if (err) { throw err; }
-    console.log(`Listening on port ${port}`);
+  if (err) { throw err; }
+  console.log(`Listening on port ${port}`);
 });
