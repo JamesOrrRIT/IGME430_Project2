@@ -60,10 +60,15 @@ const signup = async (req, res) => {
 
 const getToken = (req, res) => res.json({ csrfToken: req.csrfToken() });
 
+const profile = (req, res) => {
+  res.render('profile', { csrfToken: req.csrfToken() });
+};
+
 module.exports = {
   loginPage,
   login,
   logout,
   signup,
   getToken,
+  profile,
 };
