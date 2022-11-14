@@ -39,6 +39,8 @@ const AccountSchema = new mongoose.Schema({
   },
 });
 
+//Add the details in Prfile here
+
 // Converts a doc to something we can store in redis later on.
 AccountSchema.statics.toAPI = (doc) => ({
   username: doc.username,

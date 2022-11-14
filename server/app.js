@@ -13,6 +13,7 @@ const redis = require('redis');
 const csrf = require('csurf');
 
 const router = require('./router.js');
+const socketSetup = require('./io.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -73,6 +74,7 @@ app.use((err, req, res, next) => {
 });
 
 router(app);
+const sever = socketSetup(app);
 
 app.listen(port, (err) => {
   if (err) { throw err; }
