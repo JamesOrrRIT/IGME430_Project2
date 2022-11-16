@@ -64,6 +64,8 @@ const profile = (req, res) => {
   res.render('profile', { csrfToken: req.csrfToken() });
 };
 
+const returnUsername = (req, res) => `${req.body.username}`;
+
 module.exports = {
   loginPage,
   login,
@@ -71,4 +73,5 @@ module.exports = {
   signup,
   getToken,
   profile,
+  returnUsername,
 };

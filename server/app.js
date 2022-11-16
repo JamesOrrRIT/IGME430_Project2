@@ -49,7 +49,7 @@ app.engine('handlebars', expressHandlebars.engine({ defaultLayout: '' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
 
-app.use(session({
+const sessionMiddleware = session({
   key: 'sessionid',
   store: new RedisStore({
     client: redisClient,
@@ -60,7 +60,9 @@ app.use(session({
   cookie: {
     httpOnly: true,
   },
-}));
+});
+
+app.use(sessionMiddleware);
 
 app.engine('handlebars', expressHandlebars.engine({ defaultLayout: '' }));
 app.use(cookieParser());
@@ -74,9 +76,9 @@ app.use((err, req, res, next) => {
 });
 
 router(app);
-const sever = socketSetup(app);
+const server = socketSetup(app, sessionMiddleware);
 
-app.listen(port, (err) => {
+server.listen(port, (err) => {
   if (err) { throw err; }
   console.log(`Listening on port ${port}`);
 });

@@ -37,9 +37,13 @@ const AccountSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  bio: {
+    type: String,
+    trim: true,
+  },
 });
 
-//Add the details in Prfile here
+// Add the details in Prfile here
 
 // Converts a doc to something we can store in redis later on.
 AccountSchema.statics.toAPI = (doc) => ({
