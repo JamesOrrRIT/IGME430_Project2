@@ -37,9 +37,16 @@ const AccountSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  nickname: {
+    type: String,
+    trim: true,
+  },
   bio: {
     type: String,
     trim: true,
+  },
+  colorPicker: {
+    type: String,
   },
 });
 

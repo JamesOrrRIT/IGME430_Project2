@@ -14,10 +14,20 @@
     <div class="navlink"><a href="/maker">App</a></div>
   </nav>
   
-  <section id="userContent">
+  <section>
+    <form id="profileForm" action="/profile" method="POST">
+      <input id="nickname" type="text" placeholder="Nickname" />
+      <input id="bio" type="text" placeholder="Bio" />
+      <input id="colorSelect" type="color">
+      <input type="submit" />
+    </form>
+
+    <div>
+      <h3 id="profileChange"></h3>
+    </div>
     
   </section>
 
-  <script src="/assets/loginBundle.js"></script>
+  <script src="/assets/profileBundle.js"></script>
 </body>
 </html>
