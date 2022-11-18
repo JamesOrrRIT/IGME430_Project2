@@ -64,7 +64,7 @@ const profile = (req, res) => {
   res.render('profile', { csrfToken: req.csrfToken() });
 };
 
-const returnUsername = (req, res) => `${req.body.username}`;
+const returnUsername = (req) => `${req.body.username}`;
 
 const profileDetails = async (req, res) => {
   const nickname = `${req.body.nickname}`;
@@ -77,7 +77,11 @@ const profileDetails = async (req, res) => {
 
   let doc;
   try {
-    doc = await Account.findByIdAndUpdate(rec.session.account._id, {nickname, bio, colorPicker}).exec;
+    doc = await Account.findByIdAndUpdate(req.session.account._id, {
+      nickname,
+      bio,
+      colorPicker,
+    }).exec;
   } catch (err) {
     console.log(err);
     return res.status(400).json({ error: 'An error occurred.' });

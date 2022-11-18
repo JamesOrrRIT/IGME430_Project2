@@ -6,10 +6,10 @@ let io;
 // convert a connect middleware to a Socket.IO middleware
 const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
 
-const handleChatMessage = (msg) => {
-  console.log(msg);
-  io.emit(msg.channel, msg.message);
-};
+// const handleChatMessage = (msg) => {
+// console.log(msg);
+// io.emit(msg.channel, msg.message);
+// };
 
 const socketSetup = (app, sessionMiddleware) => {
   const server = http.createServer(app);
@@ -24,7 +24,7 @@ const socketSetup = (app, sessionMiddleware) => {
     });
 
     socket.on('chat message', (msg) => {
-      io.emit(msg.channel, `${socket.request.session.account.username}: ${msg.message}`);
+      io.emit(msg.channel, `${socket.request.session.account.username} (${socket.request.session.account.nickname}): ${msg.message}`);
     });
   });
 
