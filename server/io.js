@@ -6,11 +6,6 @@ let io;
 // convert a connect middleware to a Socket.IO middleware
 const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
 
-// const handleChatMessage = (msg) => {
-// console.log(msg);
-// io.emit(msg.channel, msg.message);
-// };
-
 const socketSetup = (app, sessionMiddleware) => {
   const server = http.createServer(app);
   io = new Server(server);

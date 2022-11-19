@@ -8,8 +8,14 @@ const handleEditBox = () => {
 
     editForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        helper.hideError();
 
-        if(editBox.value) {
+        if(editBox.value == '') {
+            helper.handleError('Fill in the field before submitting, please.');
+            return false;
+        }
+
+        else {
             const data = {
                 message: editBox.value,
                 channel: channelSelect.value,

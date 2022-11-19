@@ -1,22 +1,16 @@
 const mongoose = require('mongoose');
 const _ = require('underscore');
 
-let DomoModel = {};
+let MessageModel = {};
 
 const setName = (name) => _.escape(name).trim();
 
-const DomoSchema = new mongoose.Schema({
+const MessageSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     trim: true,
     set: setName,
-  },
-
-  age: {
-    type: Number,
-    min: 0,
-    require: true,
   },
 
   owner: {
@@ -31,19 +25,18 @@ const DomoSchema = new mongoose.Schema({
   },
 });
 
-DomoSchema.statics.toAPI = (doc) => ({
+MessageSchema.statics.toAPI = (doc) => ({
   name: doc.name,
-  age: doc.age,
 });
 
-DomoSchema.statics.findByOwner = (ownerId, callback) => {
+MessageSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: mongoose.Types.ObjectId(ownerId),
   };
 
-  return DomoModel.find(search).select('name age').lean().exec(callback);
+  return MessageModel.find(search).select('name age').lean().exec(callback);
 };
 
-DomoModel = mongoose.model('Domo', DomoSchema);
+MessageModel = mongoose.model('Message', MessageSchema);
 
-module.exports = DomoModel;
+module.exports = MessageModel;

@@ -1,25 +1,24 @@
 const models = require('../models');
-const DomoModel = require('../models/Domo');
+const MessageModel = require('../models/Message');
 
-const { Domo } = models;
+const { Message } = models;
 
 const makerPage = (req, res) => res.render('app');
 
-const makeDomo = async (req, res) => {
+const makeMessage = async (req, res) => {
   if (!req.body.name || !req.body.age) {
     return res.status(400).json({ error: 'Both name and age are required!' });
   }
 
-  const domoData = {
+  const messageData = {
     name: req.body.name,
-    age: req.body.age,
     owner: req.session.account._id,
   };
 
   try {
-    const newDomo = new Domo(domoData);
-    await newDomo.save();
-    return res.status(201).json({ name: newDomo.name, age: newDomo.age });
+    const newMessage = new Message(messageData);
+    await newMessage.save();
+    return res.status(201).json({ name: newMessage.name });
   } catch (err) {
     console.log(err);
     if (err.code === 11000) {
@@ -29,7 +28,7 @@ const makeDomo = async (req, res) => {
   }
 };
 
-const getDomos = (req, res) => DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+const getMessages = (req, res) => MessageModel.findByOwner(req.session.account._id, (err, docs) => {
   if (err) {
     console.log(err);
     return res.status(400).json({ error: 'An error occurred!' });
@@ -40,6 +39,6 @@ const getDomos = (req, res) => DomoModel.findByOwner(req.session.account._id, (e
 
 module.exports = {
   makerPage,
-  makeDomo,
-  getDomos,
+  makeMessage,
+  getMessages,
 };
