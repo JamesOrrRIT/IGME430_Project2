@@ -62,6 +62,10 @@ const handleChannelSelect = () => {
     });
 }
 
+const loadMessages = async () => {
+    //Will load the messages from the server based on the channel being submitted to
+}
+
 const init = async () => {
     const response = await fetch('/getToken');
     const data = await response.json();
@@ -69,6 +73,8 @@ const init = async () => {
     handleEditBox();
     socket.on('general', displayMessage);
     handleChannelSelect();
+    
+    loadMessages();
 }
 
 window.onload = init;

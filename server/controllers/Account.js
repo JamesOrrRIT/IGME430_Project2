@@ -69,23 +69,25 @@ const returnUsername = (req) => `${req.body.username}`;
 const profileDetails = async (req, res) => {
   const nickname = `${req.body.nickname}`;
   const bio = `${req.body.bio}`;
-  const colorPicker = `${req.body.colorPicker}`;
+  // const colorPicker = `${req.body.colorPicker}`;
 
   if (!nickname || !bio) {
     return res.status(400).json({ error: 'All fields are required!' });
   }
 
-  let doc;
-  try {
-    doc = await Account.findByIdAndUpdate(req.session.account._id, {
-      nickname,
-      bio,
-      colorPicker,
-    }).exec;
-  } catch (err) {
-    console.log(err);
-    return res.status(400).json({ error: 'An error occurred.' });
-  }
+  return res.status(400).json({ error: 'To be filled out soon' });
+
+  // let doc;
+  // try {
+  // doc = await Account.findByIdAndUpdate(req.session.account._id, {
+  // nickname,
+  // bio,
+  // colorPicker,
+  // }).exec;
+  // } catch (err) {
+  // console.log(err);
+  // return res.status(400).json({ error: 'An error occurred.' });
+  // }
 };
 
 module.exports = {
