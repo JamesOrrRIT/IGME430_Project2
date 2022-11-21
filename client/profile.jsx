@@ -15,7 +15,8 @@ const handleUserContent = (e) => {
         return;
     }
 
-    helper.sendPost(e.target.action, {nickname: nicknameBox.value, bio: bioBox.value, colorPicker: colorSelect.value, _csrf});
+    const data = {nickname: nicknameBox, bio: bioBox, colorPicker: colorSelect, _csrf};
+    helper.sendPost(e.target.action, data);
     console.log(nicknameBox, bioBox, colorSelect);
 
     return false;

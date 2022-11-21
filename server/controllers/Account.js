@@ -69,25 +69,30 @@ const returnUsername = (req) => `${req.body.username}`;
 const profileDetails = async (req, res) => {
   const nickname = `${req.body.nickname}`;
   const bio = `${req.body.bio}`;
-  // const colorPicker = `${req.body.colorPicker}`;
+  const colorPicker = `${req.body.colorPicker}`;
 
   if (!nickname || !bio) {
     return res.status(400).json({ error: 'All fields are required!' });
   }
 
-  return res.status(400).json({ error: 'To be filled out soon' });
+  let doc;
+  try {
+    doc = await Account.findByIdAndUpdate(req.session.account._id, {
+      nickname,
+      bio,
+      colorPicker,
+    }).exec();
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ error: 'An error occurred.' });
+  }
 
-  // let doc;
-  // try {
-  // doc = await Account.findByIdAndUpdate(req.session.account._id, {
-  // nickname,
-  // bio,
-  // colorPicker,
-  // }).exec;
-  // } catch (err) {
-  // console.log(err);
-  // return res.status(400).json({ error: 'An error occurred.' });
-  // }
+  if (!doc) {
+    return res.status(500).json({ error: 'Something went wrong updating profile' });
+  }
+
+  req.session.account = Account.toAPI(doc);
+  return res.json({ message: 'Account settings updated properly' });
 };
 
 module.exports = {
