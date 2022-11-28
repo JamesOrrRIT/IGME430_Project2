@@ -19,7 +19,12 @@ const socketSetup = (app, sessionMiddleware) => {
     });
 
     socket.on('chat message', (msg) => {
-      io.emit(msg.channel, `${socket.request.session.account.username} (${socket.request.session.account.nickname}): ${msg.message}`);
+      const date = new Date();
+      const day = date.toJSON().slice(0, 10).replace(/-/g, '/');
+      const hours = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      io.emit(msg.channel, `${socket.request.session.account.username} (${socket.request.session.account.nickname}): ${msg.message} \nPosted on: ${day} at ${hours}`);
+
+      // Function to save message
     });
   });
 

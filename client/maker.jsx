@@ -62,8 +62,40 @@ const handleChannelSelect = () => {
     });
 }
 
+const MessageList = (props) => {
+    if(props.messages.length === 0)
+    {
+        return (
+            <div className="messageList">
+                <h3 className="empty">Nothing has been posted yet.</h3>
+            </div>
+        );
+    }
+
+    const messageNodes = props.messages.map(message => {
+        return (
+            <div key = {message._id} className="message">
+                <h2 className="username"> {message.postedBy} </h2>
+                <h2 className="message"> {message.messageText} </h2>
+                <h2 className="createdDate"> {message.createdDate} </h2>
+            </div>
+        );
+    });
+
+    return(
+        <div className="messageList">
+            {messageNodes}
+        </div>
+    );
+}
+
 const loadMessages = async () => {
-    //Will load the messages from the server based on the channel being submitted to
+    const response = await fetch('/getMessages');
+    const data = await response.json();
+    ReactDOM.render(
+        <MessageList messages={data.messages} />,
+        document.getElementById('messages')
+    );
 }
 
 const init = async () => {

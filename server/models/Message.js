@@ -3,20 +3,27 @@ const _ = require('underscore');
 
 let MessageModel = {};
 
-const setName = (name) => _.escape(name).trim();
+const setMessage = (messageText) => _.escape(messageText).trim();
 
 const MessageSchema = new mongoose.Schema({
-  name: {
+  messageText: {
     type: String,
     required: true,
     trim: true,
-    set: setName,
+    set: setMessage,
   },
 
-  owner: {
+  postedBy: {
     type: mongoose.Schema.ObjectId,
     required: true,
     ref: 'Account',
+  },
+
+  channel: {
+    type: String,
+    required: true,
+    trim: true,
+    default: 'general',
   },
 
   createdData: {
@@ -26,7 +33,7 @@ const MessageSchema = new mongoose.Schema({
 });
 
 MessageSchema.statics.toAPI = (doc) => ({
-  name: doc.name,
+  messageText: doc.message,
 });
 
 MessageSchema.statics.findByOwner = (ownerId, callback) => {

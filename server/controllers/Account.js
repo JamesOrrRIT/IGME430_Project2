@@ -81,7 +81,7 @@ const profileDetails = async (req, res) => {
       nickname,
       bio,
       colorPicker,
-    }).exec();
+    }, { new: true }).exec();
   } catch (err) {
     console.log(err);
     return res.status(400).json({ error: 'An error occurred.' });
