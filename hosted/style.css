@@ -272,3 +272,7 @@ h3.domoAge {
 .domo:last-child {
     margin-bottom:10px;
 }
+
+#messageElement {
+    border: #ff0000;
+}

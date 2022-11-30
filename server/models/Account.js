@@ -47,6 +47,7 @@ const AccountSchema = new mongoose.Schema({
   },
   colorPicker: {
     type: String,
+    default: 'FFFFFF',
   },
 });
 
