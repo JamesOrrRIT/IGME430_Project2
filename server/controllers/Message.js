@@ -28,16 +28,17 @@ const makeMessage = async (req, res) => {
   }
 };
 
-//Change this to make get request to the server with a query parameter for the channel name
-//MessageModel.find({channel: 'general'})
-const getMessages = (req, res) => MessageModel.findByOwner(req.session.account._id, (err, docs) => {
-  if (err) {
+// Change this to make get request to the server with a query parameter for the channel name
+// MessageModel.find({channel: 'general'})
+const getMessages = async (req, res) => {
+  try {
+    const docs = await MessageModel.find({ channel: req.query.channel }).lean().exec();
+    return res.json({ messages: docs });
+  } catch (err) {
     console.log(err);
     return res.status(400).json({ error: 'An error occurred!' });
   }
-
-  return res.json({ domos: docs });
-});
+};
 
 module.exports = {
   makerPage,

@@ -29,6 +29,7 @@ const handleEditBox = () => {
 
 const displayMessage = (msg) => {
     const messageDiv = document.createElement('div');
+    messageDiv.id = 'messageElement';
     messageDiv.innerText = msg;
     //Set up div with the user name and message
     //
@@ -47,16 +48,19 @@ const handleChannelSelect = () => {
                 socket.off('general');
                 socket.off('songs');
                 socket.on('memes', displayMessage);
+                loadMessages('memes');
                 break;
             case 'general':
                 socket.off('memes');
-                socket.off('songa');
+                socket.off('songs');
                 socket.on('general', displayMessage);
+                loadMessages('general');
                 break;
             default:
                 socket.off('general');
                 socket.off('memes');
                 socket.on('songs', displayMessage);
+                loadMessages('songs');
                 break;
         }
     });
@@ -74,10 +78,8 @@ const MessageList = (props) => {
 
     const messageNodes = props.messages.map(message => {
         return (
-            <div key = {message._id} className="message">
-                <h2 className="username"> {message.postedBy} </h2>
-                <h2 className="message"> {message.messageText} </h2>
-                <h2 className="createdDate"> {message.createdDate} </h2>
+            <div key = {message._id} id="messageElement">
+                <p className="message"> {message.messageText} </p>
             </div>
         );
     });
@@ -89,12 +91,15 @@ const MessageList = (props) => {
     );
 }
 
-const loadMessages = async () => {
-    const response = await fetch('/getMessages');
+const loadMessages = async (channelName) => {
+    const response = await fetch(`/getMessages?channel=${channelName}`);
     const data = await response.json();
+
+    
+
     ReactDOM.render(
         <MessageList messages={data.messages} />,
-        document.getElementById('messages')
+        document.getElementById('oldMessages')
     );
 }
 
@@ -106,7 +111,7 @@ const init = async () => {
     socket.on('general', displayMessage);
     handleChannelSelect();
     
-    loadMessages();
+    //loadMessages('general');
 }
 
 window.onload = init;

@@ -8,20 +8,22 @@ let io;
 const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
 
 const saveMessage = async (incomingMessage) => {
-  const save = { 
+  const save = {
     messageText: incomingMessage.message,
     postedBy: incomingMessage.postedBy,
     channel: incomingMessage.channel,
-  }
-  
+  };
+
   try {
     const newMessage = await new MessageModel(save);
     await newMessage.save();
   } catch (err) {
     console.log(err);
-    return resizeBy.status(400).json({ error: 'An error has occurred.' });
+    // return res.status(400).json({ error: 'An error has occurred.' });
   }
-}
+
+  return false;
+};
 
 const socketSetup = (app, sessionMiddleware) => {
   const server = http.createServer(app);
@@ -37,8 +39,7 @@ const socketSetup = (app, sessionMiddleware) => {
 
     socket.on('chat message', (msg) => {
       let messageOutput = `${socket.request.session.account.username} `;
-      if(socket.request.session.account.nickname)
-      {
+      if (socket.request.session.account.nickname) {
         messageOutput += `(${socket.request.session.account.nickname})`;
       }
       messageOutput += `: ${msg.message}`;
@@ -49,8 +50,7 @@ const socketSetup = (app, sessionMiddleware) => {
 
       messageOutput += `\nPosted on: ${day} at ${hours}`;
 
-      if(socket.request.session.account.colorPicker)
-      {
+      if (socket.request.session.account.colorPicker) {
         messageOutput += `\nColor: ${socket.request.session.account.colorPicker}`;
       }
 
