@@ -3,7 +3,7 @@ const MessageModel = require('../models/Message');
 
 const { Message } = models;
 
-const makerPage = (req, res) => res.render('app');
+const appPage = (req, res) => res.render('app');
 
 const makeMessage = async (req, res) => {
   if (!req.body.name || !req.body.age) {
@@ -41,7 +41,7 @@ const getMessages = async (req, res) => {
 };
 
 module.exports = {
-  makerPage,
+  appPage,
   makeMessage,
   getMessages,
 };

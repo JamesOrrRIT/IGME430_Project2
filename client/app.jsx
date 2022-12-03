@@ -38,7 +38,7 @@ const displayMessage = (msg) => {
 
 const handleChannelSelect = () => {
     const channelSelect = document.getElementById('channelSelect');
-    const messages = document.getElementById('messages');
+    const messages = document.getElementById('newMessages');
 
     channelSelect.addEventListener('change', () => {
         messages.innerHTML = '';
@@ -79,6 +79,7 @@ const MessageList = (props) => {
     const messageNodes = props.messages.map(message => {
         return (
             <div key = {message._id} id="messageElement">
+                <p className="postedBy"> {message.postedBy} </p>
                 <p className="message"> {message.messageText} </p>
             </div>
         );
@@ -94,8 +95,7 @@ const MessageList = (props) => {
 const loadMessages = async (channelName) => {
     const response = await fetch(`/getMessages?channel=${channelName}`);
     const data = await response.json();
-
-    
+    console.log(data);
 
     ReactDOM.render(
         <MessageList messages={data.messages} />,
@@ -111,7 +111,13 @@ const init = async () => {
     socket.on('general', displayMessage);
     handleChannelSelect();
     
-    //loadMessages('general');
+    loadMessages('general');
+
+    //Load random ad from folder
+    let imageElem = document.createElement('img');
+    const randomInt = Math.floor(Math.random() * 2) + 1;
+    imageElem.setAttribute('src', `assets/img/ads/hubsworthParodyAd${randomInt}.png`);
+    document.getElementById('adSpot').appendChild(imageElem);
 }
 
 window.onload = init;

@@ -7,10 +7,10 @@ let io;
 // convert a connect middleware to a Socket.IO middleware
 const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
 
-const saveMessage = async (incomingMessage) => {
+const saveMessage = async (incomingMessage, poster) => {
   const save = {
     messageText: incomingMessage.message,
-    postedBy: incomingMessage.postedBy,
+    postedBy: poster,
     channel: incomingMessage.channel,
   };
 
@@ -42,6 +42,8 @@ const socketSetup = (app, sessionMiddleware) => {
       if (socket.request.session.account.nickname) {
         messageOutput += `(${socket.request.session.account.nickname})`;
       }
+      // Save the name for the saving function
+      const saveName = messageOutput;
       messageOutput += `: ${msg.message}`;
 
       const date = new Date();
@@ -57,9 +59,7 @@ const socketSetup = (app, sessionMiddleware) => {
       io.emit(msg.channel, messageOutput);
 
       // Function to save message
-      msg.postedBy = socket.request.session.account._id;
-
-      saveMessage(msg);
+      saveMessage(msg, saveName);
     });
   });
 

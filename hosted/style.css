@@ -201,15 +201,6 @@ nav:nth-child(1) {
     transform: rotate(330deg);
 }
 
-#messages {
-    width: 60%;
-    min-width: 400px;
-    border: 2px solid #55acee;
-    border-radius: 4px;
-    margin: 0 auto;
-    margin-top: 100px;
-}
-
 .domo {
     width: 95%;
     margin: 0 auto;
@@ -273,7 +264,34 @@ h3.domoAge {
     margin-bottom:10px;
 }
 
-#messageElement {
-    border:rgba(141, 141, 141, 0.8);
-    margin-top: 5px;
+#adSpot {
+    float: left;
+    padding-left: 25px;
+}
+
+#adSpot > img {
+    max-width: 300px;
+    max-height: 600px;
+}
+
+#messages {
+    float: right;
+    padding-right: 25px;
+    width: 70%;
+    min-width: 400px;
+    border-radius: 4px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+#messageElement, #messages > #messageElement {
+    border:2px solid #55acee;
+    margin-top: 20px;
+}
+
+#messageElement > p {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
 }
