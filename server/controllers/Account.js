@@ -95,6 +95,37 @@ const profileDetails = async (req, res) => {
   return res.json({ message: 'Account settings updated properly' });
 };
 
+const updatePassword = async (req, res) => {
+  const newPass = `${req.body.password}`;
+  const confirmPass = `${req.body.confirm}`;
+
+  if (!newPass || !confirmPass) {
+    return res.status(400).json({ error: 'All fields are required! ' });
+  }
+
+  if (newPass !== confirmPass) {
+    return res.status(400).json({ error: 'Passwords do not match! ' });
+  }
+
+  let doc;
+  try {
+    const hash = await Account.generateHash(newPass);
+    doc = await Account.findByIdAndUpdate(req.session.account._id, {
+      password: hash,
+    }, { new: true }).exec();
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ error: 'An error occurred.' });
+  }
+
+  if (!doc) {
+    return res.status(500).json({ error: 'Something went wrong updating your password.' });
+  }
+
+  req.session.account = Account.toAPI(doc);
+  return res.json({ message: 'Password has been updated' });
+};
+
 module.exports = {
   loginPage,
   login,
@@ -104,4 +135,5 @@ module.exports = {
   profile,
   returnUsername,
   profileDetails,
+  updatePassword,
 };

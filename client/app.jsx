@@ -66,6 +66,10 @@ const handleChannelSelect = () => {
     });
 }
 
+const EditForm = (props) => {
+    return false;
+};
+
 const MessageList = (props) => {
     if(props.messages.length === 0)
     {

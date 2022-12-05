@@ -18,6 +18,8 @@ const router = (app) => {
   app.get('/profile', mid.requiresSecure, mid.requiresLogin, controllers.Account.profile);
   app.post('/profile', mid.requiresSecure, mid.requiresLogin, controllers.Account.profileDetails);
 
+  app.post('/update', mid.requiresSecure, mid.requiresLogin, controllers.Account.updatePassword);
+
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
