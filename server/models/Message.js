@@ -14,7 +14,7 @@ const MessageSchema = new mongoose.Schema({
   },
 
   postedBy: {
-    type: mongoose.Schema.ObjectId,
+    type: String,
     required: true,
     ref: 'Account',
   },
@@ -26,9 +26,9 @@ const MessageSchema = new mongoose.Schema({
     default: 'general',
   },
 
-  createdData: {
-    type: Date,
-    default: Date.now,
+  createdDate: {
+    type: String,
+    default: new Date().toDateString(),
   },
 });
 

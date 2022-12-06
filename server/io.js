@@ -8,10 +8,13 @@ let io;
 const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
 
 const saveMessage = async (incomingMessage, poster) => {
+  const date = new Date().toDateString();
+
   const save = {
     messageText: incomingMessage.message,
     postedBy: poster,
     channel: incomingMessage.channel,
+    createdDate: date,
   };
 
   try {
@@ -38,19 +41,13 @@ const socketSetup = (app, sessionMiddleware) => {
     });
 
     socket.on('chat message', (msg) => {
-      let messageOutput = `${socket.request.session.account.username} `;
+      let messageOutput = `${socket.request.session.account.username}`;
       if (socket.request.session.account.nickname) {
         messageOutput += `(${socket.request.session.account.nickname})`;
       }
       // Save the name for the saving function
       const saveName = messageOutput;
       messageOutput += `: ${msg.message}`;
-
-      const date = new Date();
-      const day = date.toJSON().slice(0, 10).replace(/-/g, '/');
-      const hours = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-
-      messageOutput += `\nPosted on: ${day} at ${hours}`;
 
       if (socket.request.session.account.colorPicker) {
         messageOutput += `\nColor: ${socket.request.session.account.colorPicker}`;

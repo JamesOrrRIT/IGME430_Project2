@@ -9,11 +9,6 @@ const handleUserContent = (e) => {
 
     const _csrf = e.target.querySelector('#_csrf').value;
 
-    if(nicknameBox == '' && bioBox == '') 
-    {
-        return;
-    }
-
     const data = {nickname: nicknameBox, bio: bioBox, colorPicker: colorSelect, _csrf};
     helper.sendPost(e.target.action, data);
 
@@ -43,10 +38,17 @@ const Profile = (props) => {
         method="POST"
         className="profileForm"
         >
-            <input id="nickname" type="text" placeholder="Nickname" />
-            <input id="bio" type="text" placeholder="Bio" />
-            <input id="colorSelect" type="color" />
-            <input className="profileSubmit" type="submit" value="Save Changes"/>
+            <p>Tell us a little bit about yourself. You can set yourself a custom nickname and write a little bio right here. You can even set a color for your text to be displayed in.</p>
+            <div id="lineBreak">
+                <input id="nickname" type="text" placeholder="Nickname" maxLength="32" />
+            </div>
+            <div id="lineBreak">
+                <input id="bio" type="text" placeholder="Bio" />
+            </div>
+            <div id="lineBreak">
+                <input id="colorSelect" type="color" />
+                <input className="profileSubmit" type="submit" value="Save Changes"/>
+            </div>
             <input id="_csrf" type="hidden" name="_csrf" value={props.csrf} />
         </form>
     );
@@ -61,17 +63,37 @@ const PasswordChange = (props) => {
         method="POST"
         className="passwordUpdate"
         >
-            <input id="newPass" type="password" placeholder="New Password" />
-            <input id="confirmPass" type="password" placeholder="Confirm Password"/>
-            <input id="passwordUpdate" type="submit" value="Update"/>
-            <input id="_csrf" type="hidden" name="_csrf" value={props.csrf}/>
+            <p>Use these boxes to reset your password. Make sure to have it written down somewhere and keep it secure.</p>
+            <div id="lineBreak">
+                <input id="newPass" type="password" placeholder="New Password" />
+            </div>
+            <div id="lineBreak">
+                <input id="confirmPass" type="password" placeholder="Confirm Password"/>
+            </div>
+            <div id="lineBreak">
+                <input id="passwordUpdate" type="submit" value="Update"/>
+            </div>
+            <input id="_csrf" type="hidden" name="_csrf" value={props.csrf} />
         </form>
     );
+};
+
+const AdSpot = () => {
+    const randomInt = Math.floor(Math.random() * 2) + 1;
+
+    return(
+        <img src={`assets/img/ads/hubsworthParodyAd${randomInt}.png`}></img>
+    )
 };
 
 const init = async () => {
     const response = await fetch('/getToken');
     const data = await response.json();
+
+    ReactDOM.render(
+        <AdSpot />,
+        document.getElementById('adSpot')
+    );
 
     ReactDOM.render(
         <Profile csrf={data.csrfToken} />,
